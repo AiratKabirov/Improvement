@@ -17,13 +17,12 @@ namespace Traversal
 
             BinarySearchTree binarySearchTree = new BinarySearchTree();
 
-            int[] currIndex = new int[1];
-            currIndex[0] = 0;
+            int currIndex = 0;
 
             int min = int.MinValue;
             int max = int.MaxValue;
 
-            TreeNode root = binarySearchTree.DeserializeTreeOptimized(preorder, currIndex, min, max);
+            TreeNode root = binarySearchTree.DeserializeTreeOptimized(preorder, ref currIndex, min, max);
 
             // TreeNode root = solution.deserializeArray(preorder, 0, preorder.length - 1);
 

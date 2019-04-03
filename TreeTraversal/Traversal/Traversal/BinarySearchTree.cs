@@ -22,18 +22,18 @@ namespace Traversal
             PrintPreorder(root.RightChild);
         }
 
-        public TreeNode DeserializeTreeOptimized(int[] preorder, int[] currIndex, int min, int max)
+        public TreeNode DeserializeTreeOptimized(int[] preorder, ref int currIndex, int min, int max)
         {
-            if (currIndex[0] >= preorder.Length) return null;
+            if (currIndex >= preorder.Length) return null;
 
             TreeNode root = null;
 
-            if ((preorder[currIndex[0]] > min) && (preorder[currIndex[0]] < max))
+            if ((preorder[currIndex] > min) && (preorder[currIndex] < max))
             {
-                root = new TreeNode(preorder[currIndex[0]]);
-                currIndex[0] += 1;
-                root.LeftChild = DeserializeTreeOptimized(preorder, currIndex, min, root.NodeValue);
-                root.RightChild = DeserializeTreeOptimized(preorder, currIndex, root.NodeValue, max);
+                root = new TreeNode(preorder[currIndex]);
+                currIndex += 1;
+                root.LeftChild = DeserializeTreeOptimized(preorder, ref currIndex, min, root.NodeValue);
+                root.RightChild = DeserializeTreeOptimized(preorder, ref currIndex, root.NodeValue, max);
             }
 
             return root;
