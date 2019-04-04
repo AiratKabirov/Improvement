@@ -9,7 +9,7 @@ namespace Traversal
             if (root == null) return;
 
             PrintInorder(root.LeftChild);
-            Console.WriteLine( " " + root.NodeValue + "," );
+            Console.WriteLine(" " + root.NodeValue + ",");
             PrintInorder(root.RightChild);
         }
 
@@ -22,7 +22,16 @@ namespace Traversal
             PrintPreorder(root.RightChild);
         }
 
-        public TreeNode DeserializeTreeOptimized(int[] preorder, ref int currIndex, int min, int max)
+        public void PrintPostorder(TreeNode root)
+        {
+            if (root == null) return;
+
+            PrintPostorder(root.LeftChild);
+            PrintPostorder(root.RightChild);
+            Console.WriteLine(" " + root.NodeValue + ",");
+        }
+
+        public TreeNode DeserializePreorderTreeOptimized(int[] preorder, ref int currIndex, int min, int max)
         {
             if (currIndex >= preorder.Length) return null;
 
@@ -32,8 +41,25 @@ namespace Traversal
             {
                 root = new TreeNode(preorder[currIndex]);
                 currIndex += 1;
-                root.LeftChild = DeserializeTreeOptimized(preorder, ref currIndex, min, root.NodeValue);
-                root.RightChild = DeserializeTreeOptimized(preorder, ref currIndex, root.NodeValue, max);
+                root.LeftChild = DeserializePreorderTreeOptimized(preorder, ref currIndex, min, root.NodeValue);
+                root.RightChild = DeserializePreorderTreeOptimized(preorder, ref currIndex, root.NodeValue, max);
+            }
+
+            return root;
+        }
+
+        public TreeNode DeserializePostorderTreeOptimized(int[] postorder, ref int currIndex, int min, int max)
+        {
+            if (currIndex < 0) return null;
+
+            TreeNode root = null;
+
+            if ((postorder[currIndex] > min) && (postorder[currIndex] < max))
+            {
+                root = new TreeNode(postorder[currIndex]);
+                currIndex -= 1;
+                root.RightChild = DeserializePostorderTreeOptimized(postorder, ref currIndex, root.NodeValue, max);
+                root.LeftChild = DeserializePostorderTreeOptimized(postorder, ref currIndex, min, root.NodeValue);
             }
 
             return root;
@@ -62,6 +88,6 @@ namespace Traversal
             root.RightChild = DeserializeArray(preorder, divIndex, high);
 
             return root;
-        }      
+        }
     }
 }
